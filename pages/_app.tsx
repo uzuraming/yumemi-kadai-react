@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import {
   LineChart,
@@ -11,12 +10,13 @@ import {
   Label,
   ResponsiveContainer,
 } from 'recharts';
+import Header from '../components/Header';
 import { pickColor } from '../helper/color';
 import PopulationData from '../types/population-data';
 import { getPrefectures } from './api/get_ prefectures';
 import { getPopulationData } from './api/get_population_data';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp() {
   const API_KEY = process.env.API_KEY;
 
   const [prefectures, setPrefectures] = useState([]);
@@ -28,13 +28,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const list = prefectures.map((prefecture: any) => (
     <span key={prefecture.prefCode}>
-      <label htmlFor={`pref-${prefecture.prefCode}`}>{prefecture.prefName}</label>
       <input
         onChange={() => changeHandle(prefecture.prefCode, prefecture.prefName)}
         value={prefecture.prefCode}
         type='checkbox'
         id={`pref-${prefecture.prefCode}`}
       />
+      <label className='checkbox' htmlFor={`pref-${prefecture.prefCode}`}>
+        {prefecture.prefName}
+      </label>
     </span>
   ));
 
@@ -104,30 +106,41 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div>
-      <div>{list}</div>
-      <ResponsiveContainer width={700} height={300}>
-        <LineChart
-          width={600}
-          height={300}
-          data={chartData}
-          margin={{
-            top: 30,
-            right: 30,
-            left: 20,
-            bottom: 20,
-          }}
-        >
-          <Legend align='right' layout='vertical' verticalAlign='top' />
-          <CartesianGrid stroke='#ccc' />
-          {line_list}
-          <XAxis dataKey='name'>
-            <Label value='年度' offset={-10} position='insideBottomRight' />
-          </XAxis>
-          <YAxis domain={[0, 10000000]}>
-            <Label value='人口' offset={-25} position='insideTopLeft' />
-          </YAxis>
-        </LineChart>
-      </ResponsiveContainer>
+      <Header />
+      <div className='container '>
+        <div className='card grid'>
+          <div>{list}</div>
+          <div className='box-parent'>
+            <ResponsiveContainer width='100%' height='100%' className='box-child'>
+              <LineChart
+                data={chartData}
+                margin={{
+                  top: 30,
+                  right: 15,
+                  left: 20,
+                  bottom: 20,
+                }}
+              >
+                <Legend
+                  align='right'
+                  iconType='line'
+                  layout='vertical'
+                  verticalAlign='top'
+                  className='legend-text'
+                />
+                <CartesianGrid stroke='#ccc' />
+                {line_list}
+                <XAxis dataKey='name' minTickGap={-13}>
+                  <Label value='年度' offset={-5} position='insideBottomRight' />
+                </XAxis>
+                <YAxis domain={[0, 5000000]}>
+                  <Label value='人口' offset={-15} position='insideTopLeft' />
+                </YAxis>
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
