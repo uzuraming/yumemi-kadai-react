@@ -30,7 +30,7 @@ function MyApp() {
           console.log(error);
         });
     } else {
-      alert('エラーが発生しました');
+      alert('環境変数のエラーが発生しました');
     }
   }, []);
 
