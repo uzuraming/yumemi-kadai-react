@@ -16,10 +16,8 @@ import { PopulationData } from '../types/population-data';
 import { Prefecture } from '../types/prefecture';
 import { getPrefectures } from './api/get_ prefectures';
 import { getPopulationData } from './api/get_population_data';
-
+const API_KEY = process.env.API_KEY;
 function MyApp() {
-  const API_KEY = process.env.API_KEY;
-
   const [prefectures, setPrefectures] = useState<undefined | Array<Prefecture>>();
   useEffect(() => {
     if (typeof API_KEY == 'string') {
