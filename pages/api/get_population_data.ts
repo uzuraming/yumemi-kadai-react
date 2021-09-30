@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function getPopulationData(API_KEY: any, code: number) {
+export async function getPopulationData(API_KEY: string, code: number) {
   const URL = `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${code}`;
   const res = await axios.get(URL, {
     headers: {

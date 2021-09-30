@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function getPrefectures(API_KEY: any) {
+export async function getPrefectures(API_KEY: string) {
   const URL = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
   const response = await axios.get<Array<string>>(URL, {
     headers: {
