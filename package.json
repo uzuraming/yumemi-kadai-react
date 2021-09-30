@@ -14,12 +14,14 @@
     "axios": "^0.21.4",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "recharts": "^2.1.4"
   },
   "devDependencies": {
     "@testing-library/react": "^12.1.1",
     "@types/jest": "^27.0.2",
     "@types/react": "17.0.24",
+    "chart.js": "^3.5.1",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^8.3.0",
