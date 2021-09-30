@@ -1,7 +1,16 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Legend } from 'recharts';
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Legend,
+  Label,
+  ResponsiveContainer,
+} from 'recharts';
 import { pickColor } from '../helper/color';
 import PopulationData from '../types/population-data';
 import { getPrefectures } from './api/get_ prefectures';
@@ -96,13 +105,29 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div>
       <div>{list}</div>
-      <LineChart width={600} height={300} data={chartData}>
-        <Legend align='right' layout='vertical' verticalAlign='top' />
-        <CartesianGrid stroke='#ccc' />
-        {line_list}
-        <XAxis dataKey='name' />
-        <YAxis />
-      </LineChart>
+      <ResponsiveContainer width={700} height={300}>
+        <LineChart
+          width={600}
+          height={300}
+          data={chartData}
+          margin={{
+            top: 30,
+            right: 30,
+            left: 20,
+            bottom: 20,
+          }}
+        >
+          <Legend align='right' layout='vertical' verticalAlign='top' />
+          <CartesianGrid stroke='#ccc' />
+          {line_list}
+          <XAxis dataKey='name'>
+            <Label value='年度' offset={-10} position='insideBottomRight' />
+          </XAxis>
+          <YAxis domain={[0, 10000000]}>
+            <Label value='人口' offset={-25} position='insideTopLeft' />
+          </YAxis>
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 }
