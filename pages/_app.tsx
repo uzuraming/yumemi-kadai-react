@@ -12,37 +12,50 @@ import {
 } from 'recharts';
 import Header from '../components/Header';
 import { pickColor } from '../helper/color';
-import PopulationData from '../types/population-data';
+import { PopulationData } from '../types/population-data';
+import { Prefecture } from '../types/prefecture';
 import { getPrefectures } from './api/get_ prefectures';
 import { getPopulationData } from './api/get_population_data';
 
 function MyApp() {
   const API_KEY = process.env.API_KEY;
 
-  const [prefectures, setPrefectures] = useState([]);
+  const [prefectures, setPrefectures] = useState<undefined | Array<Prefecture>>();
   useEffect(() => {
-    getPrefectures(API_KEY).then((res: any) => {
-      setPrefectures(res.data.result);
-    });
+    if (typeof API_KEY == 'string') {
+      getPrefectures(API_KEY)
+        .then((res: any) => {
+          setPrefectures(res.data.result);
+        })
+        .catch((error) => {
+          alert('エラーが発生しました');
+          console.log(error);
+        });
+    } else {
+      alert('エラーが発生しました');
+    }
   }, []);
 
-  const list = prefectures.map((prefecture: any) => (
-    <span key={prefecture.prefCode}>
-      <input
-        onChange={() => changeHandle(prefecture.prefCode, prefecture.prefName)}
-        value={prefecture.prefCode}
-        type='checkbox'
-        id={`pref-${prefecture.prefCode}`}
-      />
-      <label className='checkbox' htmlFor={`pref-${prefecture.prefCode}`}>
-        {prefecture.prefName}
-      </label>
-    </span>
-  ));
+  let list: Array<undefined | JSX.Element> = [];
+  if (typeof prefectures !== 'undefined') {
+    list = prefectures.map((prefecture: Prefecture) => (
+      <span key={prefecture.prefCode}>
+        <input
+          onChange={() => changeHandle(prefecture.prefCode, prefecture.prefName)}
+          value={prefecture.prefCode}
+          type='checkbox'
+          id={`pref-${prefecture.prefCode}`}
+        />
+        <label className='checkbox' htmlFor={`pref-${prefecture.prefCode}`}>
+          {prefecture.prefName}
+        </label>
+      </span>
+    ));
+  }
 
-  const [line_list, setLineList] = useState();
+  const [line_list, setLineList] = useState<undefined | Array<JSX.Element>>();
 
-  const data = [
+  const data: PopulationData = [
     { name: 1960 },
     { name: 1970 },
     { name: 1980 },
@@ -56,7 +69,7 @@ function MyApp() {
   const [check_list, setCheckList]: [Array<number>, Function] = useState([]);
   const [check_name_list, setCheckNameList]: [Array<string>, Function] = useState([]);
 
-  const changeHandle = (code: number, name: string) => {
+  const changeHandle = (code: number, name: string): void => {
     if (!check_list.includes(code)) {
       const copy_check_list = check_list;
       copy_check_list.push(code);
@@ -65,19 +78,27 @@ function MyApp() {
       const copy_check_name_list = check_name_list;
       copy_check_name_list.push(name);
       setCheckNameList(copy_check_name_list);
+      if (typeof API_KEY == 'string') {
+        getPopulationData(API_KEY, code)
+          .then((res) => {
+            const copy_chartData = chartData;
+            res.forEach((item: number, index: number) => {
+              copy_chartData[index][name] = item;
+            });
+            setChartData(copy_chartData);
 
-      getPopulationData(API_KEY, code).then((res) => {
-        const copy_chartData = chartData;
-        res.forEach((item: number, index: number) => {
-          copy_chartData[index][name] = item;
-        });
-        setChartData(copy_chartData);
-
-        const new_line_list = check_name_list.map((item, i) => (
-          <Line type='monotone' key={item} dataKey={item} stroke={pickColor(i)} />
-        ));
-        setLineList(new_line_list);
-      });
+            const new_line_list = check_name_list.map((item, i) => (
+              <Line type='monotone' key={item} dataKey={item} stroke={pickColor(i)} />
+            ));
+            setLineList(new_line_list);
+          })
+          .catch((error) => {
+            alert('エラーが発生しました');
+            console.log(error);
+          });
+      } else {
+        alert('エラーが発生しました');
+      }
     } else {
       const index = check_list.indexOf(code);
       const copy_check_list = check_list;
