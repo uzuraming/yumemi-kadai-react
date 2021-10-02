@@ -26,7 +26,7 @@ function MyApp() {
           setPrefectures(res.data.result);
         })
         .catch((error) => {
-          alert('エラーが発生しました');
+          alert('ネットワークのエラーが発生しました');
           console.log(error);
         });
     } else {
@@ -91,11 +91,11 @@ function MyApp() {
             setLineList(new_line_list);
           })
           .catch((error) => {
-            alert('エラーが発生しました');
+            alert('環境変数のエラーが発生しました');
             console.log(error);
           });
       } else {
-        alert('エラーが発生しました');
+        alert('ネットワークのエラーが発生しました');
       }
     } else {
       const index = check_list.indexOf(code);
