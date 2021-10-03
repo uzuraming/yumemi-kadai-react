@@ -22,12 +22,23 @@ a {
     margin-right: auto;
     margin-left: auto;
     padding: 5% 5%;
+    height: auto;
   }
   .recharts-text {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
   }
   .grid {
     grid-template-columns: 1fr;
+  }
+  .checkbox {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 15px;
+    position: relative;
+    width: calc(25% - 5px);
+    color: #37474f;
+    font-size: 0.6rem;
   }
 }
 
@@ -37,14 +48,25 @@ a {
     margin-right: auto;
     margin-left: auto;
     padding: 2% 10%;
+    max-height: 100px;
   }
   .recharts-text {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
   }
   .grid {
     display: grid;
     gap: 10px;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 3fr;
+  }
+  .checkbox {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 15px;
+    position: relative;
+    width: calc(33% - 2px);
+    color: #37474f;
+    font-size: 0.7rem;
   }
 }
 
@@ -96,15 +118,7 @@ a {
 input[type='checkbox'] {
   display: none;
 }
-.checkbox {
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  padding: 5px 15px;
-  position: relative;
-  width: auto;
-  color: #37474f;
-}
+
 .checkbox::before {
   background: #fff;
   border: 1px solid #90a4ae;
@@ -135,9 +149,30 @@ input[type='checkbox'] {
 input[type='checkbox']:checked + .checkbox::after {
   opacity: 1;
 }
-.recharts-legend-item-text {
-  font-size: 0.5rem;
+
+.legend-list-wrapper {
+  display: flex;
+  flex-flow: column wrap;
+  max-width: 320px;
+  max-height: 470px;
 }
-.recharts-legend-item {
-  margin: 0;
+
+.legend-list {
+  font-size: 0.1rem;
+  display: -webkit-flex;
+  align-items: center;
+  display: flex;
+}
+
+.graph-grid {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+.legend-list-wraper {
+  padding: 0.2rem;
+}
+
+.custom-legend-wrapper {
+  width: 20%;
 }
