@@ -151,7 +151,7 @@ function Home() {
                     <Label value='年度' offset={0} position='insideBottomRight' />
                   </XAxis>
                   <YAxis domain={[0, 5000000]}>
-                    <Label value='人口' position='top' />
+                    <Label value='人口数' position='top' />
                   </YAxis>
                 </LineChart>
               </ResponsiveContainer>
